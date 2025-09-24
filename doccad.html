@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="CAD, Fusion 360, 3D Modeling, Training, Documentation" />
+  <meta name="description" content="Simplified Six-Day CAD Design Training Documentation" />
+  <title>Simple CAD Training Documentation</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+    :root {
+      --bg-light: #e1e8f2;
+      --bg-dark: #121820;
+      --primary: #0a84ff;
+      --accent: #24d2b5;
+      --text-primary-light: #1f2937;
+      --text-primary-dark: #d1d9e6;
+      --card-bg-light: #ffffff;
+      --card-bg-dark: #1e2635;
+      --border-radius: 14px;
+      --box-shadow-light: 0 6px 20px rgba(10, 132, 255, 0.15);
+      --box-shadow-dark: 0 6px 24px rgba(36, 210, 181, 0.3);
+      --transition: 0.35s ease-in-out;
+      --font-family: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-primary-light);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 1.5rem 1rem;
+      transition: background-color var(--transition), color var(--transition);
+      background-image:
+        linear-gradient(var(--primary) 1px, transparent 1px),
+        linear-gradient(90deg, var(--primary) 1px, transparent 1px),
+        radial-gradient(circle at 20% 20%, var(--accent) 1px, transparent 2px),
+        radial-gradient(circle at 80% 80%, var(--accent) 1px, transparent 2px);
+      background-size: 30px 30px, 30px 30px, 100px 100px, 100px 100px;
+      background-repeat: repeat, repeat, no-repeat, no-repeat;
+      background-attachment: fixed;
+      background-position: 0 0, 0 0, top left, bottom right;
+    }
+
+    body[data-theme='dark'] {
+      background-color: var(--bg-dark);
+      color: var(--text-primary-dark);
+      background-image:
+        linear-gradient(var(--accent) 1px, transparent 1px),
+        linear-gradient(90deg, var(--accent) 1px, transparent 1px),
+        radial-gradient(circle at 20% 20%, var(--primary) 1px, transparent 2px),
+        radial-gradient(circle at 80% 80%, var(--primary) 1px, transparent 2px);
+    }
+
+    .page-container {
+      max-width: 900px;
+      margin: auto;
+      background: var(--card-bg-light);
+      border-radius: var(--border-radius);
+      padding: 2rem 3rem 3rem 3rem;
+      box-shadow: var(--box-shadow-light);
+      transition: background-color var(--transition), box-shadow var(--transition);
+    }
+
+    body[data-theme='dark'] .page-container {
+      background: var(--card-bg-dark);
+      box-shadow: var(--box-shadow-dark);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid var(--primary);
+    }
+
+    header h1 {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 2.8rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 6px rgba(10, 132, 255, 0.8);
+    }
+
+    header p {
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+
+    #theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 0 12px var(--primary);
+      transition: background-color var(--transition);
+      z-index: 100;
+    }
+
+    #theme-toggle:hover {
+      background-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent);
+    }
+
+    .day-section {
+      background: var(--card-bg-light);
+      border-radius: var(--border-radius);
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--box-shadow-light);
+      transition: background-color var(--transition), box-shadow var(--transition);
+      border: 2px solid transparent;
+    }
+
+    body[data-theme='dark'] .day-section {
+      background: var(--card-bg-dark);
+      box-shadow: var(--box-shadow-dark);
+      border-color: var(--accent);
+    }
+
+    .day-section:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 30px var(--primary);
+      transform: translateY(-6px);
+      transition: transform 0.3s ease;
+    }
+
+    .day-header {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .date-time {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.3rem;
+    }
+
+    p {
+      color: inherit;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .image-grid {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .image-box {
+      flex: 0 1 45%;
+      aspect-ratio: 1/1;
+      background-color: var(--bg-light);
+      border: 2px solid var(--primary);
+      border-radius: var(--border-radius);
+      box-shadow: 0 0 10px var(--primary);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: box-shadow var(--transition), transform 0.3s ease;
+    }
+
+    body[data-theme='dark'] .image-box {
+      background-color: var(--card-bg-dark);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    .image-box:hover {
+      box-shadow: 0 0 25px var(--accent);
+      transform: scale(1.05);
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--border-radius);
+      user-select: none;
+    }
+
+    .mentor-section {
+      background: var(--card-bg-light);
+      color: var(--text-primary-light);
+      border-radius: var(--border-radius);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      border: 2px solid var(--primary);
+      margin-bottom: 3rem;
+      box-shadow: var(--box-shadow-light);
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.3px;
+      transition: background-color var(--transition), box-shadow var(--transition), color var(--transition);
+    }
+
+    body[data-theme='dark'] .mentor-section {
+      background: var(--card-bg-dark);
+      color: var(--text-primary-dark);
+      border-color: var(--accent);
+      box-shadow: var(--box-shadow-dark);
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      box-shadow: 0 4px 20px rgba(10, 132, 255, 0.4);
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      .image-box {
+        flex: 0 1 100%;
+      }
+
+      body {
+        padding: 1rem 0.8rem;
+      }
+
+      .page-container {
+        padding: 1.5rem 1.8rem 2rem 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button id="theme-toggle" aria-label="Toggle Light/Dark Theme">Toggle Theme</button>
+  <div class="page-container">
+    <header>
+      <h1>Fusion 360 Documentation</h1>
+      <p>Simple & Elegant Six-Day Autodesk Fusion 360 Documentation</p>
+    </header>
+
+    <section class="day-section">
+      <div class="day-header">Day 1: Introduction & Basics</div>
+      <div class="date-time">07.04.2025 (1.5 hrs)</div>
+      <p>Started with Fusion 360 installation, interface overview, and parametric modeling fundamentals. Focus on workspace navigation and simple geometry.</p>
+      <div class="section-title">Focus Areas</div>
+      <p><strong>Navigation Bar, Timeline:</strong> Getting comfortable with the interface.<br />
+        <strong>Basic Operations:</strong> Shell and cut commands for 3D shapes.</p>
+    </section>
+    <div class="image-grid">
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.48 AM.jpeg" alt="Day 1 sample 1" /></div>
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.10.09 AM.jpeg" alt="Day 1 sample 2" /></div>
+    </div>
+
+    <section class="day-section">
+      <div class="day-header">Day 2: Sketching Essentials</div>
+      <div class="date-time">08.04.2025 (1.5 hrs)</div>
+      <p>Learned precise 2D sketching using constraints and dimensions and transforming sketches to 3D parts via extrusion.</p>
+      <div class="section-title">Focus Areas</div>
+      <p><strong>Sketch Tools:</strong> Lines, circles, rectangles, mirrors.<br />
+        <strong>Constraints:</strong> Coincident, equal, horizontal/vertical.<br />
+        <strong>3D Features:</strong> Extrusions and basic documentation.</p>
+    </section>
+    <div class="image-grid">
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.49 AM (2).jpeg" alt="Day 2 sample 1" /></div>
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.15 AM.jpeg" alt="Day 2 sample 2" /></div>
+    </div>
+
+    <section class="day-section">
+      <div class="day-header">Day 3: Intermediate & Reference Modeling</div>
+      <div class="date-time">10.04.2025 (4 hrs)</div>
+      <p>Integrated reference images with scaling and advanced organic/mechanical modeling techniques using revolve, hole creation, and appearances.</p>
+      <div class="section-title">Focus Areas</div>
+      <p><strong>Canvas Images:</strong> Accurate reference for modeling.<br />
+        <strong>Organic Shapes:</strong> Pikachu keychain project.<br />
+        <strong>Mechanical Parts:</strong> Precise piston and connecting rod.</p>
+    </section>
+    <div class="image-grid">
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.49 AM (1).jpeg" alt="Day 3 sample 1" /></div>
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.15 AM (1).jpeg" alt="Day 3 sample 2" /></div>
+    </div>
+
+    <section class="day-section">
+      <div class="day-header">Day 4: Advanced Assemblies & Cloud</div>
+      <div class="date-time">14.04.2025 (4 hrs)</div>
+      <p>Focused on cloud file management, complex assembly modeling, and motion mechanics including joints and parent-child component relations.</p>
+      <div class="section-title">Focus Areas</div>
+      <p><strong>Cloud Storage:</strong> Project version control.<br />
+        <strong>Assembly Design:</strong> Bodies vs components.<br />
+        <strong>Motion:</strong> Animated joints and constraints.</p>
+    </section>
+    <div class="image-grid">
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.49 AM.jpeg" alt="Day 4 sample 1" /></div>
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.14 AM (2).jpeg" alt="Day 4 sample 2" /></div>
+    </div>
+
+    <section class="day-section">
+      <div class="day-header">Day 5: Practice & Advanced Tools</div>
+      <div class="date-time">16.04.2025 (1.5 hrs)</div>
+      <p>Reinforced skills and explored loft, pipe, coil creation, chamfer, fillet, text engraving, and McMaster-Carr integration for standard parts.</p>
+      <div class="section-title">Focus Areas</div>
+      <p><strong>Advanced Geometry:</strong> Loft and coil tools.<br />
+        <strong>Finishing:</strong> Chamfer, fillets, engravings.<br />
+        <strong>Parts Library:</strong> McMaster-Carr access.</p>
+    </section>
+    <div class="image-grid">
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.15 AM (2).jpeg" alt="Day 5 sample 1" /></div>
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.50 AM.jpeg" alt="Day 5 sample 2" /></div>
+    </div>
+
+    <section class="day-section">
+      <div class="day-header">Day 6: Review & Future Paths</div>
+      <div class="date-time">17.04.2025 (1.5 hrs)</div>
+      <p>Collaborative problem solving, knowledge validation, and planning for advanced skill growth with simulations and sheet metal design.</p>
+      <div class="section-title">Focus Areas</div>
+      <p><strong>Troubleshooting:</strong> Constraint and assembly challenges.<br />
+        <strong>Future Learning:</strong> FEA simulation and CAM.<br />
+        <strong>Project Ideas:</strong> Mechanical assemblies and product models.</p>
+    </section>
+    <div class="image-grid">
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.14 AM.jpeg" alt="Day 6 sample 1" /></div>
+      <div class="image-box"><img src="images/fusion/WhatsApp Image 2025-09-25 at 4.06.14 AM (1).jpeg" alt="Day 6 sample 2" /></div>
+    </div>
+
+    <section class="mentor-section">
+      Mentor: <strong>Swayam Dhamode</strong>
+    </section>
+
+    <footer>
+      Digital Fabrication Lab - Made by Shlok Paytade
+    </footer>
+  </div>
+
+  <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        themeToggleBtn.textContent = 'Switch to Light Theme';
+      } else {
+        document.body.removeAttribute('data-theme');
+        themeToggleBtn.textContent = 'Switch to Dark Theme';
+      }
+      localStorage.setItem('theme', theme);
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      let newTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+
+    applyTheme(currentTheme);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Networking Module Documentation | Digital FabLab</title>
+<style>
+  /* Base Reset and Typography */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    color: #222;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+
+
+  /* Header */
+  header {
+    background: #0a9cdc;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.2);
+    user-select: none;
+    box-shadow: 0 5px 15px -5px #0a9cdc;
+  }
+
+
+  /* Container and Layout */
+  .container {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto 4rem auto;
+    box-shadow: 0 0 25px rgba(10, 156, 220, 0.15);
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .container:hover {
+    box-shadow: 0 0 40px rgba(10, 156, 220, 0.3);
+  }
+
+
+  /* Sidebar Navigation */
+  nav {
+    width: 280px;
+    background: #1e2a38;
+    color: #d1d9e6;
+    padding: 2rem 1.5rem;
+    user-select: none;
+    position: sticky;
+    top: 1rem;
+    height: fit-content;
+    border-right: 4px solid #0a9cdc;
+    border-radius: 12px 0 0 12px;
+    box-shadow: inset -3px 0 5px rgba(10,156,220,0.1);
+  }
+  nav h2 {
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: #0a9cdc;
+    letter-spacing: 1.2px;
+    border-bottom: 2px solid #0a9cdc;
+    padding-bottom: 0.3rem;
+  }
+  nav ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  nav ul li {
+    margin: 1rem 0;
+  }
+  nav ul li a {
+    color: #d1d9e6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease, background 0.25s ease;
+    display: block;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    border-left: 4px solid transparent;
+    user-select: none;
+  }
+  nav ul li a:hover,
+  nav ul li a.active {
+    color: #0a9cdc;
+    border-left-color: #0a9cdc;
+    font-weight: 700;
+    background: rgba(10,156,220,0.12);
+  }
+
+
+  /* Main Content Area */
+  main {
+    flex: 1;
+    padding: 2.5rem 3.5rem;
+    overflow-wrap: break-word;
+  }
+  main h3 {
+    color: #0a9cdc;
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    border-bottom: 4px solid #0a9cdc;
+    padding-bottom: 0.3rem;
+    font-size: 1.85rem;
+    letter-spacing: 0.05em;
+    user-select: text;
+    font-variant: small-caps;
+  }
+  .day-section {
+    margin-bottom: 4rem;
+  }
+  .day-section p {
+    margin: 1.2rem 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  .day-section ul {
+    margin: 1rem 0 1.8rem 1.5rem;
+    color: #444;
+    font-size: 1.05rem;
+    list-style-type: disc;
+    user-select: text;
+  }
+  .day-section ul li {
+    margin-bottom: 0.65rem;
+  }
+  .day-section img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(10,156,220,0.25);
+    margin-top: 1.7rem;
+    transition: transform 0.4s ease;
+    cursor: zoom-in;
+  }
+  .day-section img:hover {
+    transform: scale(1.05);
+  }
+
+  /* Mentor Section */
+  .mentor-section {
+    background: #e7f3ff;
+    border-left: 5px solid #0a9cdc;
+    border-radius: 12px;
+    padding: 1.8rem 2.2rem;
+    box-shadow: 0 8px 20px rgba(10,156,220,0.1);
+    user-select: text;
+    color: #064a82;
+    font-size: 1.15rem;
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .mentor-section h3 {
+    color: #0a9cdc;
+    font-weight: 900;
+    font-variant: small-caps;
+    margin-bottom: 1rem;
+    font-size: 1.9rem;
+  }
+  .mentor-section p {
+    margin: 0.75rem 0;
+    line-height: 1.65;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f0f4fb;
+    color: #0a9cdc;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    border-top: 3px solid #0a9cdc;
+    user-select: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+
+  /* Scroll-to-top button */
+  #scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #0a9cdc;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 40px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 3px 15px rgba(10,156,220,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    user-select: none;
+    z-index: 1000;
+  }
+  #scrollTopBtn.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+
+</style>
+</head>
+<body>
+
+
+<header>
+  Networking Documentation
+</header>
+
+
+<div class="container">
+  <nav>
+    <h2>Networking Module</h2>
+    <ul>
+      <li><a href="#day1" class="active">Day 1: Introduction</a></li>
+      <li><a href="#day2">Day 2: Network Types & Data</a></li>
+      <li><a href="#day3">Day 3: OSI Model</a></li>
+      <li><a href="#day4">Day 4: HTTP & DNS</a></li>
+      <li><a href="#day5">Day 5: DHCP & Revision</a></li>
+      <li><a href="#day6">Day 6: Low-Level Protocols</a></li>
+      <li><a href="#day7">Day 7: Zynq FPGA Project</a></li>
+    </ul>
+  </nav>
+
+
+  <main>
+    <section id="day1" class="day-section">
+      <h3>Day 1: Introduction to Networking</h3>
+      <p>Building blocks of networking include sender, receiver, transmission medium (cables, wireless), message, and protocol.</p>
+      <p>Modes of communication are simplex, half-duplex, and full-duplex - for example, walkie-talkies vs. video calls.</p>
+      <p>Understanding analog vs digital signals, with digital dominant due to noise immunity and ease of processing.</p>
+      <p>Essential characteristics of networking: speed, accuracy, reliability, and security.</p>
+      <p>Real-world example illustrating WhatsApp packet journey across networks.</p>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.38.39 AM.jpeg" alt="Networking Introduction Illustration" />
+    </section>
+
+
+    <section id="day2" class="day-section">
+      <h3>Day 2: Types of Network & Nature of Data</h3>
+      <ul>
+        <li>Network types: LAN, MAN, WAN, PAN – spanning home Wi-Fi to global ISPs.</li>
+        <li>Comparison of Client-server vs. peer-to-peer networks and their effect on scalability.</li>
+        <li>Bandwidth and latency trade-offs, important in scenarios like high-frequency trading needing low latency.</li>
+        <li>Types of data: oriented (structured), observed (sensor), inferred (analytics).</li>
+        <li>Insights into IoT where multiple network types coexist.</li>
+      </ul>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.39.22 AM.jpeg" alt="Network Types and Data Illustration" />
+    </section>
+
+
+    <section id="day3" class="day-section">
+      <h3>Day 3: The OSI Model Demystified</h3>
+      <p>Understanding the OSI 7-layer model: Physical, Data Link, Network, Transport, Session, Presentation, Application.</p>
+      <p>Examples of protocols operating at each layer: Ethernet, IP, TCP/UDP, SSL/TLS, HTTP/HTTPS, FTP.</p>
+      <p>Concepts of encapsulation & de-encapsulation: how headers/footers are applied at each layer.</p>
+      <p>Hands-on: tracing a packet using ping and traceroute.</p>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.39.32 AM.jpeg" alt="OSI Model Diagram" />
+    </section>
+
+
+    <section id="day4" class="day-section">
+      <h3>Day 4: Inside the Web - HTTP & DNS</h3>
+      <p>DNS converts domain names to IP addresses functioning as the internet's "phonebook".</p>
+      <p>HTTP/HTTPS request methods include GET, POST, PUT, DELETE - used in RESTful APIs.</p>
+      <p>Caching mechanisms and HTTP response codes: 2xx (success), 3xx (redirection), 4xx (client error), 5xx (server error) to manage efficient web traffic.</p>
+      <p>Lab: using nslookup and browser developer tools to observe DNS lookups live.</p>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.39.34 AM (1).jpeg" alt="HTTP and DNS Workflow" />
+    </section>
+
+
+    <section id="day5" class="day-section">
+      <h3>Day 5: Revision & DHCP in Action</h3>
+      <p>Quick revision of OSI model concepts.</p>
+      <p>Automatic IP management using DHCP (Dynamic Host Configuration Protocol).</p>
+      <p>Differences between static and dynamic IP addresses.</p>
+      <p>DHCP handshake steps: Discover → Offer → Request → Acknowledge.</p>
+      <p>Practical: viewing router’s DHCP lease table and observing dynamic IP address assignments.</p>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.39.35 AM (1).jpeg" alt="DHCP Process Illustration" />
+    </section>
+
+
+    <section id="day6" class="day-section">
+      <h3>Day 6: Low-Level Protocols & Diagnostics</h3>
+      <ul>
+        <li>Role of underlying protocols in network reliability.</li>
+        <li>ARP: Address Resolution Protocol maps IP to MAC addresses within LANs.</li>
+        <li>ICMP: Internet Control Message Protocol powers tools like ping and traceroute.</li>
+        <li>DHCP Acknowledge: confirms IP address assignment.</li>
+      </ul>
+      <p>Practical: tracing packets and locating network bottlenecks using these protocols.</p>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.39.35 AM (2).jpeg" alt="Network Protocols Diagnostic Tools" />
+    </section>
+
+
+    <section id="day7" class="day-section">
+      <h3>Day 7: From Theory to Zynq-Based App</h3>
+      <p>Integrating learning into a mini project.</p>
+      <p>Designed and submitted a Zynq FPGA-based application using DHCP, ARP, and ICMP protocols.</p>
+      <p>Understanding embedded-to-network communication.</p>
+      <p>Transferable skills gained for IoT, industrial automation, and edge computing applications.</p>
+      <img src="images/networking/WhatsApp Image 2025-09-25 at 3.39.35 AM.jpeg" alt="Zynq FPGA Application" />
+    </section>
+
+    <section id="mentor" class="day-section mentor-section">
+      <h3>Mentor</h3>
+      <p>This networking module was guided and supported expertly by <strong>Gorav Sharma</strong>, a dedicated mentor with profound knowledge in networking and digital fabrication.</p>
+      <p>His mentorship enriched the learning experience with practical insights and invaluable guidance throughout the course.</p>
+    </section>
+  </main>
+</div>
+
+
+<footer>
+  Digital Fabrication made by Shlok Paytade
+</footer>
+
+
+<button id="scrollTopBtn" aria-label="Scroll to top" title="Scroll to top">&#8679;</button>
+
+
+<script>
+  // Smooth scroll on nav click & highlight active link on scroll
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('nav ul li a');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+
+  function onScroll() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (pageYOffset >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').slice(1) === current) {
+        link.classList.add('active');
+      }
+    });
+
+
+    // Show scroll to top button after some scroll
+    if (window.pageYOffset > 400) {
+      scrollTopBtn.classList.add('show');
+    } else {
+      scrollTopBtn.classList.remove('show');
+    }
+  }
+
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').slice(1);
+      const targetSection = document.getElementById(targetId);
+      targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('load', onScroll);
+
+  // Fade in Mentor section on scroll into view
+  const mentorSection = document.querySelector('.mentor-section');
+  const observerOptions = {
+    root: null,
+    threshold: 0.15
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  if (mentorSection) {
+    observer.observe(mentorSection);
+  }
+</script>
+
+
+</body>
+</html>

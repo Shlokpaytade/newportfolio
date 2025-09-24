@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FABLAB Documentation</title>
+    <style>
+        /* Reset and base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            position: relative;
+            font-family: 'Poppins', Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 25px 15px;
+            line-height: 1.7;
+            user-select: none;
+            border-radius: 15px;
+            background: #121212;
+            color: #ECECEC;
+            box-shadow: 0 0 30px #00e5ff88; /* subtle blue glow border */
+            transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Glowing animated border */
+        @keyframes glowingBorder {
+            0% {
+                box-shadow: 0 0 10px #00d8ff88, 0 0 20px #00d8ff66, 0 0 30px #00d8ff44;
+            }
+            50% {
+                box-shadow: 0 0 25px #00e5ffbb, 0 0 40px #00e5ffaa, 0 0 60px #00e5ff88;
+            }
+            100% {
+                box-shadow: 0 0 10px #00d8ff88, 0 0 20px #00d8ff66, 0 0 30px #00d8ff44;
+            }
+        }
+
+        body.glow {
+            animation: glowingBorder 3s ease-in-out infinite;
+            border: 4px solid #00e5ff;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-weight: 900;
+            font-size: 3rem;
+            color: #60EFFF;
+            text-shadow: 0 0 10px #60EFFF88;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        /* Top Images Section */
+        .top-images {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 60px;
+        }
+
+        .top-images img {
+            width: 30%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px #00d8ffbb;
+            cursor: zoom-in;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+        }
+        .top-images img:hover {
+            transform: scale(1.12) rotateY(15deg);
+            box-shadow: 0 15px 40px #00d8ffdd;
+        }
+
+        /* Day Section Card */
+        .day-section {
+            background: #1E1E1E;
+            border-radius: 18px;
+            padding: 30px 40px;
+            margin-bottom: 48px;
+            box-shadow: 0 0 50px #00e5ff22 inset;
+            transition: box-shadow 0.3s ease, transform 0.25s ease;
+            will-change: transform, box-shadow;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        .day-section:hover {
+            box-shadow: 0 0 70px #00e5ffbb inset;
+            transform: translateY(-10px);
+        }
+
+        .day-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .day-section h2 {
+            color: #00e5ff;
+            font-size: 2rem;
+            margin-bottom: 28px;
+            border-left: 9px solid #00e5ff;
+            padding-left: 20px;
+            text-shadow: 0 0 12px #00e5ffbb;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            color: #b0dff9;
+            text-align: justify;
+        }
+
+        ol, ul {
+            margin-left: 36px;
+            margin-bottom: 28px;
+            color: #88d9ff;
+            font-size: 1.1rem;
+        }
+
+        ol {
+            counter-reset: numbered;
+        }
+
+        ol li {
+            padding-left: 36px;
+            margin-bottom: 14px;
+            position: relative;
+            counter-increment: numbered;
+        }
+
+        ol li::before {
+            content: counter(numbered);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #00e5ff;
+            color: #121212;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-weight: 700;
+            box-shadow: 0 0 10px #00e5ff88;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 14px;
+        }
+
+        ul li::before {
+            content: "●";
+            color: #00e5ff;
+            font-size: 18px;
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        i {
+            font-style: italic;
+            color: #59d4fc;
+        }
+
+        b {
+            color: #00bccc;
+            font-weight: 900;
+        }
+
+        u {
+            border-bottom: 2px dashed #00e5ff;
+            text-decoration: none;
+        }
+
+        /* Images after day sections */
+        .day-images {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .day-images img {
+            width: 48%;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px #00e5ff88;
+            object-fit: cover;
+            cursor: zoom-in;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .day-images img:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 40px #00e5ffcc;
+        }
+
+        footer {
+            text-align: center;
+            color: #3BAFDA;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 20px 0;
+            border-top: 1px solid #3BAFDA55;
+            margin-top: 60px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 760px) {
+            .top-images {
+                flex-direction: column;
+                gap: 25px;
+            }
+            .top-images img {
+                width: 100%;
+            }
+            .day-images {
+                flex-direction: column;
+            }
+            .day-images img {
+                width: 100%;
+            }
+            .day-section {
+                padding: 20px;
+            }
+        }
+
+        /* Light Theme */
+        body.light {
+            background: #fdfdfd;
+            color: #222222;
+            box-shadow: 0 0 30px #00aaff88;
+            border: 4px solid #00aaff;
+            transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        body.light header h1 {
+            color: #0077cc;
+            text-shadow: 0 0 10px #0077cc88;
+        }
+
+        body.light .day-section {
+            background: #ffffff;
+            box-shadow: 0 0 50px #00aaff22 inset;
+            color: #222222;
+        }
+
+        body.light .day-section:hover {
+            box-shadow: 0 0 70px #00aaffbb inset;
+        }
+
+        body.light ol, body.light ul {
+            color: #0066cc;
+        }
+
+        body.light p {
+            color: #333333;
+        }
+
+        body.light footer {
+            color: #0077cc;
+            border-top-color: #0077cc55;
+        }
+
+        /* Theme toggle button */
+        #theme-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: #00e5ff;
+            color: #121212;
+            border: none;
+            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 0 12px #00e5ffbb;
+            transition: background 0.3s ease, color 0.3s ease;
+            z-index: 1000;
+        }
+
+        #theme-toggle:hover {
+            background: #00b5dd;
+            box-shadow: 0 0 20px #00b5ddcc;
+        }
+    </style>
+</head>
+<body class="glow">
+
+    <button id="theme-toggle" aria-label="Toggle Light/Dark theme">Light Theme</button>
+
+    <header>
+        <h1>Web Development Documentation</h1>
+        <div class="top-images">
+            <img src="images/web dev/WhatsApp Image 2025-09-25 at 2.35.59 AM.jpeg" alt="FABLAB Image 1" />
+            <img src="images/web dev/WhatsApp Image 2025-09-25 at 2.36.00 AM.jpeg" alt="FABLAB Image 2" />
+            <img src="images/web dev/WhatsApp Image 2025-09-25 at 2.36.13 AM.jpeg" alt="FABLAB Image 3" />
+        </div>
+    </header>
+
+    <main>
+        <div class="day-section" id="day1">
+            <h2>DAY-1</h2>
+            <p>It was tuesday 25 March, my first working day <i>DIGITAL FABLAB</i>. On that day our first module started i.e <b>Web Development</b>. Web development is divided into 3 parts that are:</p>
+            <ol>
+                <li><i>HTML</i></li>
+                <li><i>CSS</i></li>
+                <li><i>JavaScript</i></li>
+            </ol>
+            <p>So our first topic HTML got started. mentors started teaching from the basics and told us about the fundamental tags to use. Then mam teaches us about the HTML layout by using "shift+!". Also mam tells about some tags that are paragraph tag "p", a tag for adding link, h1, h2, h3, h4, h5, h6 used for words size, comment tags and all other basic tags and concluded the day-1 class.</p>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.22 PM.jpeg" alt="Day 1 Image 1" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.27 PM.jpeg" alt="Day 1 Image 2" />
+            </div>
+        </div>
+
+        <div class="day-section" id="day2">
+            <h2>DAY-2</h2>
+            <p>On 26 of March, my FABLAB's day-2, <i>day-2 of Digital Fablab</i> was all about tags that mentors teaches us that are:</p>
+            <ol>
+                <li>img tag</li>
+                <li>center tag</li>
+                <li>bold b tag</li>
+                <li>italic i tag</li>
+                <li>underline u tag</li>
+                <li>big tag</li>
+                <li>small tag</li>
+                <li>sub tag</li>
+                <li>sup tag</li>
+                <li>pre tag</li>
+                <li>header tag</li>
+                <li>main tag</li>
+                <li>footer tag</li>
+                <li>section tag</li>
+                <li>article tag</li>
+                <li>aside tag</li>
+                <li>div tag</li>
+                <li>span tag</li>
+            </ol>
+            <p>This is what I learned on FABLAB day-2.</p>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.28 PM (1).jpeg" alt="Day 2 Image 1" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.28 PM.jpeg" alt="Day 2 Image 2" />
+            </div>
+        </div>
+
+        <div class="day-section" id="day3">
+            <h2>DAY-3</h2>
+            <p>On 27 March, day-3 of Digital FABLAB, we focused on practical applications of HTML tags we learned previously. We had hands-on practice with various tags, with special emphasis on the img tag. We learned how to:</p>
+            <ul>
+                <li>Insert images using the img tag with src, alt, width, and height attributes</li>
+                <li>Create responsive images</li>
+                <li>Position images within the page</li>
+                <li>Create image galleries</li>
+                <li>Use figure and figcaption tags</li>
+            </ul>
+            <p>We also practiced creating forms with input fields, select dropdowns, and buttons. The practical session helped reinforce our understanding of HTML structure and elements.</p>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.29 PM (1).jpeg" alt="Day 3 Image 1" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.29 PM (2).jpeg" alt="Day 3 Image 2" />
+            </div>
+        </div>
+
+        <div class="day-section" id="day4">
+            <h2>DAY-4</h2>
+            <p>On 28 March, day-4 of Digital FABLAB, we were introduced to the basics of CSS (Cascading Style Sheets). Our mentor explained the three ways to include CSS in HTML:</p>
+            <ol>
+                <li>Inline CSS - using the style attribute</li>
+                <li>Internal CSS - using the style tag in the head section</li>
+                <li>External CSS - linking a separate .css file</li>
+            </ol>
+            <p>We learned basic CSS properties such as color, background-color, font-size, margin, padding, and border. We practiced applying CSS to HTML elements to improve the design and layout of web pages.</p>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.29 PM.jpeg" alt="Day 4 Image 1" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.31 PM (2).jpeg" alt="Day 4 Image 2" />
+            </div>
+        </div>
+
+        <div class="day-section" id="day5">
+            <h2>DAY-5</h2>
+            <p>On 29 March, day-5 of Digital FABLAB, we explored CSS selectors, the box model, and positioning elements. Our mentor introduced us to class and ID selectors, pseudo-classes, and combinators. We also studied how margin, padding, border, and content form the CSS box model and practiced positioning elements using static, relative, absolute, and fixed positions.</p>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.30 PM (1).jpeg" alt="Day 5 Image 1" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.28 PM.jpeg" alt="Day 5 Image 2" />
+            </div>
+        </div>
+
+        <div class="day-section" id="day6">
+            <h2>DAY-6</h2>
+            <p>On 30 March, day-6 of Digital FABLAB, we started learning about <b>JavaScript</b>, the programming language of the web. JavaScript helps make web pages interactive and dynamic beyond static HTML and CSS.</p>
+            <p>The topics covered included:</p>
+            <ol>
+                <li>Introduction to JavaScript syntax and variables</li>
+                <li>Data types: strings, numbers, booleans, arrays, and objects</li>
+                <li>Basic operators and expressions</li>
+                <li>Functions: declaration, calling, and scope</li>
+                <li>Working with the console for debugging</li>
+                <li>JavaScript integration in HTML using &lt;script&gt; tags</li>
+            </ol>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.27 PM.jpeg" alt="JavaScript Code" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.31 PM.jpeg" alt="Code Debugging" />
+            </div>
+        </div>
+
+        <div class="day-section" id="day7">
+            <h2>DAY-7</h2>
+            <p>On 31 March, day-7, we explored more advanced JavaScript features, focusing on <i>string handling and format matching</i>. These concepts are essential for validating user input and formatting data dynamically.</p>
+            <p>Key learnings were:</p>
+            <ul>
+                <li>Using regular expressions (regex) to match patterns within strings.</li>
+                <li>The <code>test()</code> method to check for matches.</li>
+                <li>Using string methods like <code>match()</code>, <code>replace()</code>, and <code>search()</code>.</li>
+                <li>Examples of formats: email validation, phone number patterns.</li>
+                <li>Practical practice of creating regex patterns for format matching.</li>
+            </ul>
+            <div class="day-images">
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.31 PM.jpeg" alt="Code Editor with Regex" />
+                <img src="images/web dev/WhatsApp Image 2025-09-21 at 3.43.31 PM (1).jpeg" alt="JavaScript Console" />
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 FABLAB Documentation. All rights reserved.
+    </footer>
+
+    <script>
+        // Add glow effect on page load
+        window.addEventListener('load', () => {
+            document.body.classList.add('glow');
+        });
+
+        // Fade-in day sections on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.day-section');
+            const triggerBottom = window.innerHeight * 0.85;
+
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if(sectionTop < triggerBottom){
+                    section.classList.add('visible');
+                }
+            });
+
+            // Toggle glowing border on scroll for dynamic effect
+            if (window.scrollY > 100) {
+                document.body.classList.remove('glow');
+            } else {
+                document.body.classList.add('glow');
+            }
+        });
+
+        // Theme toggle button functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            if(document.body.classList.contains('light')) {
+                document.body.classList.remove('light');
+                themeToggle.textContent = 'Light Theme';
+            } else {
+                document.body.classList.add('light');
+                themeToggle.textContent = 'Dark Theme';
+            }
+        });
+    </script>
+
+</body>
+</html>

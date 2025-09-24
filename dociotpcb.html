@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>7-Day Learning Journey: IoT & PCB Design</title>
+  <style>
+    /* Reset and base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0f8ff, #dff5ec);
+      color: #222;
+      padding: 2.5rem 1rem 6rem;
+      position: relative;
+      min-height: 100vh;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 700;
+      color: #0D47A1;
+      text-shadow: 1px 1px 3px rgba(13, 71, 161, 0.25);
+      letter-spacing: 0.03em;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 3rem;
+      font-family: 'Arial Black', Gadget, sans-serif;
+    }
+
+    h2.module-info {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #1565C0;
+      border-left: 6px solid #1565C0;
+      padding-left: 0.8rem;
+      font-style: italic;
+      user-select: none;
+    }
+
+    .module-toggle {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .toggle-button {
+      background: #0D47A1;
+      color: #fff;
+      border-radius: 35px;
+      border: none;
+      padding: 0.85rem 2.5rem;
+      margin: 0 1rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgb(13 71 161 / 0.6);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      font-family: 'Segoe UI Black', Arial Black, Gadget, sans-serif;
+    }
+
+    .toggle-button:hover,
+    .toggle-button.active {
+      background: #1976D2;
+      box-shadow: 0 0 28px #1976d2cc;
+    }
+
+    section {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      background: #ffffffdd;
+      box-shadow: 0 10px 30px rgb(0 0 0 / 0.14);
+      border: 5px double #0D47A1;
+      border-radius: 16px;
+      padding: 2rem 2.8rem 3rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Day block */
+    .day-block {
+      border: 3px solid #1565C0;
+      border-radius: 14px;
+      padding: 1.6rem 2.2rem 2rem;
+      margin-bottom: 2.8rem;
+      background: #e8f1ff;
+      box-shadow: inset 0 0 15px rgb(21 101 192 / 0.17);
+      transition: box-shadow 0.4s ease;
+    }
+
+    .day-block:hover {
+      box-shadow: inset 0 0 30px rgb(21 101 192 / 0.33);
+    }
+
+    .day-block h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #0D3458;
+      letter-spacing: 0.04em;
+      user-select: none;
+    }
+
+    /* Content List */
+    .content-list {
+      margin-left: 1.2rem;
+      margin-bottom: 1.6rem;
+      list-style-type: disc;
+      color: #1B1B1B;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .content-list ul {
+      list-style-type: circle;
+      margin-left: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Image sections container */
+    .images-section {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.6rem;
+      margin-top: 1.3rem;
+      margin-bottom: 1.6rem;
+      flex-wrap: wrap;
+    }
+
+    /* Individual image container */
+    .images-section div {
+      flex: 1 1 48%;
+      min-height: 180px; /* increased height for better appearance */
+      border: 3px dashed #1565C0;
+      border-radius: 12px;
+      background: #ffffffcc;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 8px #1976d2aa;
+      user-select: none;
+      cursor: pointer;
+      color: #1565C0;
+      font-weight: 700;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, color 0.3s ease;
+      text-align: center;
+    }
+
+    .images-section div:hover {
+      background: #bbdefb;
+      color: #0D47A1;
+      box-shadow: 0 3px 12px #1976d2cc;
+    }
+
+    /* Images inside container - absolutely positioned to fit perfectly */
+    .images-section div img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: translate(-50%, -50%);
+      border-radius: 12px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Editable placeholder style fallback if no image */
+    .images-section div.empty::before {
+      content: attr(data-placeholder);
+      position: relative;
+      z-index: 1;
+      font-style: italic;
+      color: #1565c0cc;
+    }
+
+    /* Module info images */
+    .module-info-images {
+      display: flex;
+      justify-content: center;
+      gap: 1.8rem;
+      margin-top: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .module-info-images img {
+      width: 300px;
+      height: 180px;
+      object-fit: cover;
+      border: 4px solid #1565C0;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(21, 101, 192, 0.45);
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    .module-info-images img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 28px rgba(21, 101, 192, 0.6);
+    }
+
+    /* Footer Mentors */
+    footer {
+      max-width: 900px;
+      margin: 3rem auto 1rem;
+      background: #ffffffcc;
+      border: 4px double #0D47A1;
+      border-radius: 14px;
+      padding: 1.5rem 2rem;
+      color: #004D40;
+      font-weight: 700;
+      font-size: 1.17rem;
+      box-shadow: 0 0 18px rgb(0 77 64 / 0.33);
+      text-align: center;
+      user-select: none;
+      letter-spacing: 0.03em;
+    }
+
+    /* Watermark */
+    body::before {
+      content: "DIGITAL FABRICATION LAB\nMADE BY SHLOK PAYTADE 2024-25";
+      white-space: pre-line;
+      position: fixed;
+      bottom: 15vh;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+      font-size: 8vw;
+      font-weight: 900;
+      color: rgba(21, 101, 192, 0.05);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      text-align: center;
+      letter-spacing: 0.25em;
+      line-height: 1.1;
+      font-family: 'Arial Black', Gadget, sans-serif;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #d0e1fb;
+      border-radius: 12px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #104a8b;
+      border-radius: 12px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 650px) {
+      .images-section div,
+      .module-info-images img {
+        flex-basis: 100%;
+        width: 100% !important;
+        min-height: 200px !important;
+      }
+
+      .toggle-button {
+        padding: 0.75rem 1.5rem;
+        margin: 0.5rem 0.3rem;
+        font-size: 1rem;
+      }
+
+      body {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>IOT & PCB Designing Documentation</h1>
+
+  <div class="module-toggle" role="tablist" aria-label="Toggle between IoT and PCB modules">
+    <button aria-selected="true" class="toggle-button active" id="btn-iot" role="tab" aria-controls="iot-module">IoT Module</button>
+    <button aria-selected="false" class="toggle-button" id="btn-pcb" role="tab" aria-controls="pcb-module">PCB Designing Module</button>
+  </div>
+
+  <!-- IoT Module Section -->
+  <section id="iot-module" class="active" role="tabpanel" aria-labelledby="btn-iot" tabindex="0">
+    <h2 class="module-info">IoT Module Overview</h2>
+    <p>
+      The IoT module focuses on the ESP8266 microcontroller, exploring its capabilities in wireless connectivity and sensor integration. Through practical programming using Arduino IDE and interactive projects like web servers and live data visualization, students grasp essential IoT concepts and applications.
+    </p>
+    <div class="module-info-images" aria-label="Images related to IoT module, ESP8266 and electronics">
+      <img src="images/iot/WhatsApp Image 2025-09-24 at 1.32.23 AM.jpeg"
+           alt="ESP8266 Microcontroller close-up" />
+      <img src="images/iot/WhatsApp Image 2025-09-24 at 1.31.51 AM.jpeg"
+           alt="Engineer programming on Arduino IDE" />
+      <img src="images/iot/WhatsApp Image 2025-09-24 at 1.23.54 AM.jpeg"
+           alt="IoT sensor board and wiring" />
+    </div>
+
+    <!-- Day 1 -->
+    <div class="day-block" aria-label="Day 1 IoT Learning content">
+      <h3>Day 1 – IoT Module</h3>
+      <ul class="content-list">
+        <li><strong>Introduction to ESP8266:</strong> Learned about ESP8266 microcontroller, its pinout, specifications, and use in IoT projects.</li>
+        <li><strong>Installing Arduino IDE:</strong> Step-by-step installation and configuration for programming ESP8266.</li>
+        <li><strong>Setting up Arduino IDE for ESP8266:</strong> Added ESP8266 board manager URL and installed required libraries.</li>
+        <li><strong>Mini Program – Blink Internal LED:</strong> Wrote and uploaded first program to blink onboard LED.</li>
+        <li><strong>Mini Program – Blink External LED:</strong> Connected external LED to ESP8266 and controlled it via GPIO pins.</li>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 1, part 1"><img src="images/iot/WhatsApp Image 2025-09-24 at 1.23.55 AM.jpeg" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 1, part 2"><img src="images/iot/WhatsApp Image 2025-09-24 at 1.21.10 AM.jpeg" alt=""></div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-block" aria-label="Day 2 IoT Learning content">
+      <h3>Day 2 – IoT Module</h3>
+      <ul class="content-list">
+        <li><strong>Introduction to Wi-Fi in IoT:</strong> Learned how Wi-Fi enables IoT communication and networking basics (IP, SSID, password).</li>
+        <li><strong>Wi-Fi Setup in ESP8266:</strong> Connected ESP8266 to a Wi-Fi network.</li>
+        <li><strong>Program 1 – Connect ESP8266 to Wi-Fi:</strong> Verified connection by printing IP address in Serial Monitor.</li>
+        <li><strong>Program 2 – Simple Web Server:</strong> Created a basic web page hosted on ESP8266 to control LED ON/OFF via browser.</li>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 2, part 1"><img src="images/iot/Screenshot 2025-09-15 204550.png" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 2, part 2"><img src="images/iot/WhatsApp Image 2025-09-24 at 1.21.07 AM.jpeg" alt=""></div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-block" aria-label="Day 3 IoT Learning content">
+      <h3>Day 3 – IoT Module</h3>
+      <ul class="content-list">
+        <li><strong>Quick Recap:</strong> Reviewed Wi-Fi connection and web server setup from Day 2.</li>
+        <li><strong>Ultrasonic Sensor with ESP8266:</strong></li>
+        <ul class="content-list">
+          <li><strong>Program 1 – Distance Measurement:</strong> Interfaced ultrasonic sensor, measured distance, and printed results in Serial Monitor.</li>
+          <li><strong>Program 2 – Live Web Page:</strong> Displayed live sensor data on a web page for real-time monitoring.</li>
+        </ul>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 3, part 1"><img src="images/iot/WhatsApp Image 2025-09-24 at 1.23.52 AM.jpeg" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 3, part 2"><img src="images/iot/day-2.png" alt=""></div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-block" aria-label="Day 4 IoT Learning content">
+      <h3>Day 4 – IoT Module</h3>
+      <ul class="content-list">
+        <li><strong>Project Concept Discussion:</strong> Chose a mini IoT project based on sensor data and web control.</li>
+        <li><strong>MIT App Inventor Setup:</strong> Installed and explored App Inventor interface.</li>
+        <li><strong>App Design & Programming:</strong> Created a simple mobile app to display sensor data and control outputs.</li>
+        <li><strong>Integration:</strong> Connected the app with ESP8266 and successfully tested data transfer and control.</li>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 4, part 1"><img src="images/iot/WhatsApp Image 2025-09-24 at 1.18.31 AM.jpeg" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 4, part 2"><img src="images/iot/WhatsApp Image 2025-09-24 at 1.18.33 AM.jpeg" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PCB Designing Module Section -->
+  <section id="pcb-module" role="tabpanel" aria-labelledby="btn-pcb" tabindex="0">
+    <h2 class="module-info">PCB Designing Module Overview</h2>
+    <p>
+      The PCB Designing module dives into the fundamentals of circuit design and PCB fabrication. Students learn to design schematics, create layouts, perform routing, and ensure design rule compliance. The module also touches on practical aspects such as controlling DC motors and real-world implementation challenges.
+    </p>
+    <div class="module-info-images" aria-label="PCB Design and milling machine images">
+      <img src="images/pcb/WhatsApp Image 2025-09-24 at 2.18.52 AM (1).jpeg"
+           alt="PCB schematic design on software" />
+      <img src="images/pcb/WhatsApp Image 2025-09-24 at 2.18.51 AM.jpeg"
+           alt="PCB milling machine working" />
+      <img src="images/pcb/WhatsApp Image 2025-09-24 at 2.18.52 AM.jpeg"
+           alt="Engineers analyzing PCB layout" />
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-block" aria-label="Day 5 PCB Learning content">
+      <h3>Day 5 – PCB Designing Module</h3>
+      <ul class="content-list">
+        <li><strong>AC to DC Converter Schematic:</strong> Designed schematic for a basic AC to DC converter circuit.</li>
+        <li><strong>PCB Basics:</strong> Learned about PCB layers, traces, vias, footprints, and design rules.</li>
+        <li><strong>PPT Session:</strong> Discussed real-life applications of PCB and best design practices.</li>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 5, part 1"><img src="images/pcb/WhatsApp Image 2025-09-24 at 2.09.57 AM.jpeg" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 5, part 2"><img src="images/pcb/WhatsApp Image 2025-09-24 at 2.09.57 AM (1).jpeg" alt=""></div>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-block" aria-label="Day 6 PCB Learning content">
+      <h3>Day 6 – PCB Designing Module</h3>
+      <ul class="content-list">
+        <li><strong>AC to DC Converter Layout:</strong> Converted schematic to PCB layout using design software.</li>
+        <li><strong>Component Placement & Routing:</strong> Practiced placement, routing, and checking for DRC (Design Rule Check) errors.</li>
+        <li><strong>Hands-on Session:</strong> Students worked on layout tools independently under guidance.</li>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 6, part 1"><img src="images/pcb/WhatsApp Image 2025-09-24 at 2.12.15 AM (1).jpeg" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 6, part 2"><img src="images/pcb/WhatsApp Image 2025-09-24 at 2.10.00 AM.jpeg" alt=""></div>
+      </div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-block" aria-label="Day 7 PCB Learning content">
+      <h3>Day 7 – PCB Designing Module</h3>
+      <ul class="content-list">
+        <li><strong>DC Motor Speed Controller Schematic:</strong> Designed schematic for DC motor control circuit.</li>
+        <li><strong>Layout Designing:</strong> Converted schematic to layout and routed connections.</li>
+        <li><strong>Discussion & Q&A:</strong> Cleared doubts related to layout design, simulation, and real-world implementation.</li>
+      </ul>
+      <div class="images-section">
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 7, part 1"><img src="images/pcb/WhatsApp Image 2025-09-24 at 2.12.15 AM.jpeg" alt=""></div>
+        <div contenteditable="true" class="empty" data-placeholder="" aria-label="Add image or description for Day 7, part 2"><img src="images/pcb/WhatsApp Image 2025-09-24 at 2.12.16 AM.jpeg" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <footer role="contentinfo">
+    Mentors: Rakesh Lande (RL), Rohan Khandar (RK), Tejas Tarankar (TT)
+  </footer>
+
+  <script>
+    // Module toggle functionality with ARIA role updates
+    const btnIot = document.getElementById('btn-iot');
+    const btnPcb = document.getElementById('btn-pcb');
+    const iotModule = document.getElementById('iot-module');
+    const pcbModule = document.getElementById('pcb-module');
+
+    function activateModule(module) {
+      if (module === 'iot') {
+        btnIot.classList.add('active');
+        btnPcb.classList.remove('active');
+        btnIot.setAttribute('aria-selected', 'true');
+        btnPcb.setAttribute('aria-selected', 'false');
+        iotModule.classList.add('active');
+        pcbModule.classList.remove('active');
+        iotModule.setAttribute('tabindex', '0');
+        pcbModule.setAttribute('tabindex', '-1');
+      } else {
+        btnPcb.classList.add('active');
+        btnIot.classList.remove('active');
+        btnPcb.setAttribute('aria-selected', 'true');
+        btnIot.setAttribute('aria-selected', 'false');
+        pcbModule.classList.add('active');
+        iotModule.classList.remove('active');
+        pcbModule.setAttribute('tabindex', '0');
+        iotModule.setAttribute('tabindex', '-1');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    btnIot.addEventListener('click', () => activateModule('iot'));
+    btnPcb.addEventListener('click', () => activateModule('pcb'));
+  </script>
+</body>
+
+</html>

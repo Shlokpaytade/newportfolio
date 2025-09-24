@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>7-Day 3D Printing Learning Plan - Digital Fabrication Lab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #283e51 0%, #485563 100%);
+    margin: 0;
+    color: #eceff4;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  a {
+    color: #82cfff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    max-width: 900px;
+    margin: 3rem auto 5rem auto;
+    background: rgba(30, 40, 55, 0.85);
+    border-radius: 16px;
+    padding: 3rem 3rem 4rem 3rem;
+    box-shadow: 0 25px 40px rgba(0,0,0,0.7);
+    border: 3px solid #3b88c3;
+    position: relative;
+  }
+  /* Elegant gradient border */
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: -6px; right: -6px; bottom: -6px;
+    background: linear-gradient(45deg, #2980b9 0%, #6dd5fa 50%, #2980b9 100%);
+    border-radius: 20px;
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.6;
+  }
+  h1, h2 {
+    color: #a0c4ff;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 0 2px 6px rgba(15, 34, 64, 0.9);
+  }
+  h1 {
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+  }
+  h2 {
+    font-size: 2.1rem;
+    margin-top: 3rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid #5ea0ff;
+    width: fit-content;
+  }
+  p.brief {
+    font-size: 1.15rem;
+    text-align: center;
+    color: #c5d2f0;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  ul {
+    margin-top: 0.5rem;
+    margin-left: 1.7rem;
+    color: #c7d3f0dd;
+  }
+  ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1.08rem;
+    text-shadow: 0 0 3px rgba(0,0,0,0.25);
+  }
+  section.day {
+    margin-top: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid #3b88c340;
+  }
+  /* Image section styled to accept pasted images as background */
+  .image-section {
+    margin: 1.5rem auto 2.5rem auto;
+    background: linear-gradient(180deg, #1e2837, #2f3b58);
+    border-radius: 16px;
+    border: 3px dashed #5ea0ffaa;
+    color: #5ea0ffcc;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+    cursor: default;
+    user-select: none;
+    box-shadow: 0 0 15px #5ea0ff55;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    padding: 0.3rem;
+  }
+  .image-section.empty::after {
+    content: attr(data-placeholder);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #5ea0ffbb;
+    font-style: italic;
+    font-weight: 600;
+    pointer-events: none;
+    user-select: none;
+  }
+  .image-section img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Changed from contain to cover to fully fill */
+    border-radius: 14px;
+    box-shadow:
+      0 8px 18px rgba(30, 75, 140, 0.8),
+      0 0 25px #82cfffaa;
+    transition: transform 0.3s ease;
+  }
+  .image-section img:hover {
+    transform: scale(1.06);
+  }
+
+  /* Header images container */
+  .header-images {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    margin-bottom: 4rem;
+  }
+  .header-images div {
+    height: 200px;
+    width: 200px;
+    border: 3px dotted #5ea0ffaa;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #375a8e, #1a3153);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5ea0ffaa;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.2rem;
+    cursor: default;
+    user-select: none;
+    box-shadow:
+      0 0 25px #5ea0ffaa,
+      inset 0 0 25px #3f72f5bb;
+    position: relative;
+    text-align: center;
+    padding: 0.3rem;
+  }
+  .header-images div.empty::after {
+    content: attr(data-placeholder);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #5ea0ffbb;
+    font-style: italic;
+    font-weight: 700;
+    pointer-events: none;
+    user-select: none;
+  }
+  .header-images div img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Changed from contain to cover */
+    border-radius: 14px;
+    box-shadow:
+      0 8px 18px rgba(30, 75, 140, 0.8),
+      0 0 25px #82cfffaa;
+    transition: transform 0.3s ease;
+  }
+  .header-images div img:hover {
+    transform: scale(1.06);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(to right, #2980b9, #6dd5fa);
+    color: #1b2738;
+    border-radius: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-top: 5rem;
+    user-select: none;
+    box-shadow:
+      0 7px 25px rgba(43, 124, 186, 0.9),
+      0 0 50px rgba(109, 213, 250, 0.8);
+    font-size: 1.3rem;
+    font-family: 'Poppins', sans-serif;
+    text-shadow:  0 1px 0 #cdf1ff99;
+  }
+
+  /* Scrollbar for container */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3b88c3cc;
+    border-radius: 15px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #182533;
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="7-Day 3D Printing Learning Plan">
+    <h1>3D-Printing Documentation</h1>
+    <p class="brief" tabindex="0">
+      This comprehensive module guides beginners through the essentials of 3D printing technology, from fundamental concepts and materials to practical printing skills and advanced techniques. Designed for learners of all levels, it enables independent use of slicing software, printer operation, troubleshooting, and post-processing methods, culminating in confident prototyping and digital fabrication mastery.
+    </p>
+    <div class="header-images">
+      <div id="headerImage1" class="empty" data-placeholder="" tabindex="0" aria-label="Header Image 1, paste image here"><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.51 PM.jpeg" alt=""></div>
+      <div id="headerImage2" class="empty" data-placeholder="" tabindex="0" aria-label="Header Image 2, paste image here"><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.50 PM (1).jpeg" alt=""></div>
+    </div>
+
+    <section class="day" id="day1">
+      <h2>Day 1 – Basics of 3D Printing</h2>
+      <ul>
+        <li>Learn what <strong>3D printing is</strong> (additive manufacturing).</li>
+        <li>Study types of 3D printing (focus mainly on <strong>FDM</strong> since it’s most common for beginners).</li>
+        <li>Understand printer parts:
+          <ul>
+            <li>Frame, Bed, Extruder, Nozzle, Filament, Stepper Motors, Control Board.</li>
+          </ul>
+        </li>
+        <li>Watch a video or demo of a 3D printer in action.</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 1" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.50 PM.jpeg" alt=""></div>
+    </section>
+
+    <section class="day" id="day2">
+      <h2>Day 2 – Materials & Safety</h2>
+      <ul>
+        <li>Learn about <strong>filaments</strong>: PLA, ABS, PETG, TPU (which to use and when).</li>
+        <li>Understand <strong>bed adhesion methods</strong> (tape, glue stick, build plate, heated bed).</li>
+        <li>Study <strong>safety precautions</strong>: hot nozzle, moving parts, ventilation.</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 2" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.52 PM.jpeg" alt=""></div>
+    </section>
+
+    <section class="day" id="day3">
+      <h2>Day 3 – Introduction to CAD & STL Files</h2>
+      <ul>
+        <li>Learn basics of <strong>3D design software</strong> (TinkerCAD for beginners or Fusion360/Blender for advanced).</li>
+        <li>Understand <strong>STL file format</strong> (used for 3D printing).</li>
+        <li>Practice downloading free 3D models from <strong>Thingiverse / Printables</strong>.</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 3" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.53 PM.jpeg" alt=""></div>
+    </section>
+
+    <section class="day" id="day4">
+      <h2>Day 4 – Slicing Software</h2>
+      <ul>
+        <li>Learn what a <strong>slicer</strong> is (converts STL → G-code).</li>
+        <li>Install <strong>Cura</strong> (most popular) or PrusaSlicer.</li>
+        <li>Study key slicing settings:
+          <ul>
+            <li>Layer height</li>
+            <li>Infill %</li>
+            <li>Supports</li>
+            <li>Print speed & temperature</li>
+          </ul>
+        </li>
+        <li>Preview toolpaths in slicer before printing.</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 4" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.53 PM (1).jpeg" alt=""></div>
+    </section>
+
+    <section class="day" id="day5">
+      <h2>Day 5 – First Print & Calibration</h2>
+      <ul>
+        <li>Learn about <strong>bed leveling</strong> and why it matters.</li>
+        <li>Calibrate printer: adjust nozzle height and bed surface.</li>
+        <li>Start your <strong>first test print</strong> (calibration cube or Benchy).</li>
+        <li>Observe common issues (warping, stringing, under-extrusion).</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 5" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.39 PM.jpeg" alt=""></div>
+    </section>
+
+    <section class="day" id="day6">
+      <h2>Day 6 – Troubleshooting & Print Quality</h2>
+      <ul>
+        <li>Learn to identify and fix problems:
+          <ul>
+            <li>Bed adhesion issues → adjust leveling/bed temp.</li>
+            <li>Stringing → lower temp, enable retraction.</li>
+            <li>Layer shifting → tighten belts, check bed stability.</li>
+          </ul>
+        </li>
+        <li>Experiment with changing settings: speed, infill, supports.</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 6" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.51 PM (1).jpeg" alt=""></div>
+    </section>
+
+    <section class="day" id="day7">
+      <h2>Day 7 – Post-processing & Advanced Learning</h2>
+      <ul>
+        <li>Learn <strong>post-processing techniques</strong>: sanding, painting, acetone smoothing (for ABS).</li>
+        <li>Explore advanced filaments: wood-fill, carbon-fiber, flexible TPU.</li>
+        <li>Learn about multi-material and resin (SLA/DLP) printing as future steps.</li>
+        <li>Print a <strong>useful object</strong> (phone stand, tool holder, custom keychain).</li>
+      </ul>
+      <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 7" data-placeholder=""><img src="images/3d/WhatsApp Image 2025-09-23 at 9.39.54 PM.jpeg" alt=""></div>
+    </section>
+
+    <section class="footer" tabindex="0">
+      Digital Fabrication Lab - Made by Shlok Paytade
+    </section>
+  </div>
+
+<script>
+  // Paste event handler for image sections and header images
+  function enableImagePaste(element) {
+    element.addEventListener('paste', (event) => {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].kind === 'file') {
+          const blob = items[i].getAsFile();
+          if (blob && blob.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              element.classList.remove('empty');
+              element.innerHTML = ''; // Clear placeholder text
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.alt = 'Pasted Image';
+              img.style.objectFit = 'cover'; // Ensure full fill
+              element.appendChild(img);
+            };
+            reader.readAsDataURL(blob);
+            event.preventDefault();
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  // Initialize paste support for all image placeholders (days)
+  document.querySelectorAll('.image-section').forEach(section => {
+    enableImagePaste(section);
+  });
+  // Initialize paste support for header images
+  document.querySelectorAll('.header-images div').forEach(div => {
+    enableImagePaste(div);
+  });
+</script>
+</body>
+</html>

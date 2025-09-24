@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Laser Cutting Documentation - Digital Fabrication Lab</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
+  /* Reset */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #faf9f6;
+    color: #3d3d3d;
+    line-height: 1.65;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    padding-left: 260px; /* for nav */
+    transition: background 0.5s, color 0.5s;
+  }
+  a {
+    color: #c53030;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  nav {
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    width: 220px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(197,48,48,0.15);
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    z-index: 100;
+    transition: box-shadow 0.3s ease;
+  }
+  nav.sticky {
+    box-shadow: 0 8px 25px rgba(197,48,48,0.3);
+  }
+  nav a {
+    display: block;
+    padding: 0.75rem 0;
+    border-left: 4px solid transparent;
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+    opacity: 0.8;
+    border-radius: 6px;
+  }
+  nav a.active,
+  nav a:hover {
+    border-left-color: #c53030;
+    background: #f9e6e6;
+    color: #a02929;
+    opacity: 1;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 3rem auto 5rem auto;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 3.6rem;
+    color: #c53030;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 3px;
+  }
+  p.brief {
+    max-width: 700px;
+    margin: 0.5rem auto 3rem auto;
+    font-size: 1.25rem;
+    color: #5a4a4a;
+    text-align: center;
+    user-select: text;
+  }
+
+  /* Two 'about machine' image placeholders container */
+  .machine-images {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 1.5rem auto 3rem auto;
+  }
+  .machine-images .image-section {
+    width: 320px;
+    height: 220px;
+  }
+
+  /* Day sections */
+  section.day {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(197,48,48,0.07);
+    margin-bottom: 3.5rem;
+    padding: 2.3rem 2.8rem;
+    overflow: hidden;
+    user-select: none;
+    opacity: 1;
+    transform-origin: top center;
+    transition: box-shadow 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  section.day:hover,
+  section.day:focus-within {
+    box-shadow: 0 8px 30px rgba(197,48,48,0.15);
+    opacity: 1;
+    transform: scale(1.007);
+  }
+  section.day.collapsing {
+    transition: none;
+  }
+  section.day.collapsed {
+    height: 50px !important;
+    padding: 0.7rem 2.8rem !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    opacity: 0.85;
+  }
+  section.day.collapsed:hover {
+    opacity: 1;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: #a62727;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 1rem 0;
+    user-select: none;
+  }
+  /* Arrow SVG container */
+  h2 .arrow {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-left: auto;
+    fill: #c53030;
+  }
+  h2.active .arrow {
+    transform: rotate(90deg);
+  }
+
+  ul {
+    font-size: 1.15rem;
+    color: #555;
+    margin-left: 1.7rem;
+    user-select: text;
+    margin-bottom: 1.5rem;
+  }
+  ul li {
+    margin-bottom: 0.7rem;
+  }
+
+  .image-section {
+    margin: 2rem auto 0 auto;
+    border-radius: 14px;
+    width: 280px;
+    height: 180px;
+    background: #fff8f8;
+    border: 2px solid #f7d7d7;
+    box-shadow: 0 5px 15px rgba(197,48,48,0.1);
+    color: #d47a7a;
+    font-weight: 600;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .image-section.empty::after {
+    content: attr(data-placeholder);
+    color: #c48e8e;
+    user-select: none;
+  }
+  .image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+    padding: 2rem;
+    color: #a63737;
+    border-top: 2px solid #f3dede;
+    margin-top: 4rem;
+    user-select: none;
+  }
+
+  /* Dark/Light toggle button */
+  #modeToggle {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: #c53030;
+    color: #fff;
+    font-weight: 700;
+    padding: 0.55rem 1.2rem;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 0 15px #c5303088;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1100;
+  }
+  #modeToggle:hover {
+    background: #a72727;
+  }
+
+  /* Back to top button */
+  #backToTopBtn {
+    position: fixed;
+    bottom: 5.5rem;
+    right: 1rem;
+    background: #c53030;
+    color: #fff;
+    border-radius: 24px;
+    padding: 0.55rem 1rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 15px #c5303088;
+    display: none;
+    user-select: none;
+    z-index: 1100;
+    transition: opacity 0.4s ease;
+  }
+  #backToTopBtn.show {
+    display: block;
+  }
+  #backToTopBtn:hover {
+    background: #a72727;
+  }
+
+  /* Dark mode styles */
+  body.dark-mode {
+    background: #121212;
+    color: #f4c2c2;
+    padding-left: 260px;
+  }
+  body.dark-mode nav {
+    background: #281313;
+    box-shadow: 0 4px 15px #b14e4e;
+    color: #f4b5b5;
+  }
+  body.dark-mode nav a {
+    color: #f09c9c;
+  }
+  body.dark-mode nav a.active,
+  body.dark-mode nav a:hover {
+    background: #5a1414;
+    border-left-color: #f37b7b;
+    color: #ffadad;
+  }
+  body.dark-mode .container section.day {
+    background: #261919;
+    box-shadow: 0 4px 20px #7b3535;
+  }
+  body.dark-mode h2 {
+    color: #ffbaba;
+  }
+  body.dark-mode .footer {
+    border-top-color: #4d1e1e;
+    color: #f5b1b1;
+  }
+  body.dark-mode #modeToggle {
+    background: #b74444;
+    box-shadow: 0 0 15px #b7444488;
+  }
+  body.dark-mode #modeToggle:hover {
+    background: #9c3535;
+  }
+  body.dark-mode #backToTopBtn {
+    background: #b74444;
+    box-shadow: 0 0 15px #b7444488;
+  }
+  body.dark-mode #backToTopBtn:hover {
+    background: #9c3535;
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Day Navigation" role="navigation" id="sideNav">
+  <a href="#day1" class="active" tabindex="0">Day 1 – Intro & Applications</a>
+  <a href="#day2" tabindex="0">Day 2 – Hardware & Software</a>
+  <a href="#day3" tabindex="0">Day 3 – Design Basics</a>
+  <a href="#day4" tabindex="0">Day 4 – Materials & Settings</a>
+  <a href="#day5" tabindex="0">Day 5 – Operating the Laser</a>
+  <a href="#day6" tabindex="0">Day 6 – Project Day</a>
+  <a href="#day7" tabindex="0">Day 7 – Review & Maintenance</a>
+</nav>
+
+<div class="container" role="main" aria-label="7-Day Laser Cutting Learning Plan">
+  <h1 tabindex="0">Laser Cutting Documentation</h1>
+
+  <!-- Two 'about machine' image placeholders after heading -->
+  <div class="machine-images" aria-label="Laser Cutting Machine images - paste here">
+    <div id="machineImage1" class="image-section empty" tabindex="0" aria-label="Paste image here about machine 1" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 4.22.29 PM.jpeg" alt=""></div>
+    <div id="machineImage2" class="image-section empty" tabindex="0" aria-label="Paste image here about machine 2" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 4.22.28 PM (1).jpeg" alt=""></div>
+  </div>
+
+  <p class="brief" tabindex="0">
+    This intensive module introduces learners to laser cutting technology, covering essential concepts, hardware and software, file preparation, material selection, safe operation, troubleshooting, and practical projects to master digital fabrication skills.
+  </p>
+
+  <!-- Day 1 -->
+  <section class="day" id="day1" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day1content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">laser_cutting</span>
+      Day 1 – Intro & Applications
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day1content">
+      <li>What is laser cutting?</li>
+      <li>Types of lasers (CO2, Fiber, Diode)</li>
+      <li>Common uses (wood, acrylic, etc.)</li>
+      <li>Safety basics</li>
+      <li>✅ Activity: List 5 laser-cut items.</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 1" data-placeholder=""><img src="images/laser/Screenshot 2025-09-21 163834.png" alt=""></div>
+  </section>
+
+  <!-- Day 2 -->
+  <section class="day" id="day2" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day2content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">hardware</span>
+      Day 2 – Hardware & Software
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day2content">
+      <li>Laser cutter parts (laser tube, bed, exhaust, etc.)</li>
+      <li>Software: LaserCad (version)</li>
+      <li>Vector vs Raster, file types (.svg, .dxf)</li>
+      <li>✅ Activity: design a basic shape</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 2" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 3.39.38 PM.jpeg" alt=""></div>
+  </section>
+
+  <!-- Day 3 -->
+  <section class="day" id="day3" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day3content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">design_services</span>
+      Day 3 – Design Basics
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day3content">
+      <li>Cut vs engrave setup</li>
+      <li>Design tips for press fit</li>
+      <li>✅ Activity: small box design and engraving</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 3" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 4.30.28 PM.jpeg" alt=""></div>
+  </section>
+
+  <!-- Day 4 -->
+  <section class="day" id="day4" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day4content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">layers</span>
+      Day 4 – Materials & Settings
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day4content">
+      <li>Materials: wood, acrylic (types), paper, cardboard, etc.</li>
+      <li>Power/speed settings</li>
+      <li>Testing cuts</li>
+      <li>✅ Activity: run a speed/power test grid on cardboard</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 4" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 3.40.14 PM.jpeg" alt=""></div>
+  </section>
+
+  <!-- Day 5 -->
+  <section class="day" id="day5" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day5content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+      Day 5 – Operating the Laser
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day5content">
+      <li>Focusing, bed setup, air assist, exhaust</li>
+      <li>Sending files, running job</li>
+      <li>Safety checks (emergency stop)</li>
+      <li>✅ Activity: cut your first real design</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 5" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 3.41.33 PM.jpeg" alt=""></div>
+  </section>
+
+  <!-- Day 6 -->
+  <section class="day" id="day6" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day6content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">build</span>
+      Day 6 – Project Day
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day6content">
+      <li>Make something useful (stand, box, 3D)</li>
+      <li>File prep, nesting, assembly</li>
+      <li>✅ Activity: complete & document your project</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 6" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 4.39.56 PM.jpeg" alt=""></div>
+  </section>
+
+  <!-- Day 7 -->
+  <section class="day" id="day7" aria-expanded="true" tabindex="0">
+    <h2 role="button" aria-controls="day7content" aria-expanded="true" tabindex="0">
+      <span class="material-symbols-outlined" aria-hidden="true">fact_check</span>
+      Day 7 – Review & Maintenance
+      <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+    </h2>
+    <ul id="day7content">
+      <li>Common issues (burn, incomplete cut)</li>
+      <li>Basic maintenance (cleaning, lens, mirrors)</li>
+      <li>Project showcase</li>
+      <li>✅ Activity: present final work & reflect</li>
+    </ul>
+    <div class="image-section empty" tabindex="0" aria-label="Paste image here for Day 7" data-placeholder=""><img src="images/laser/WhatsApp Image 2025-09-21 at 4.34.41 PM.jpeg" alt=""></div>
+  </section>
+
+  <section class="footer" tabindex="0">
+    Digital Fabrication Lab - Made by Shlok Paytade
+  </section>
+</div>
+
+<button id="modeToggle" aria-label="Toggle dark or light mode">Dark Mode</button>
+<button id="backToTopBtn" aria-label="Back to top">Top</button>
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+<script>
+  // Clipboard paste image with fade & scale animation
+  function enableImagePaste(element) {
+    element.addEventListener('paste', (event) => {
+      const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].kind === 'file') {
+          const blob = items[i].getAsFile();
+          if (blob && blob.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              element.classList.remove('empty');
+              element.innerHTML = '';
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.alt = 'Pasted Image';
+
+              img.style.opacity = 0;
+              img.style.transform = 'scale(0.9)';
+              img.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+              element.appendChild(img);
+              // Animate fade & scale in
+              requestAnimationFrame(() => {
+                img.style.opacity = 1;
+                img.style.transform = 'scale(1)';
+              });
+
+              element.classList.add('visible');
+            };
+            reader.readAsDataURL(blob);
+            event.preventDefault();
+            break;
+          }
+        }
+      }
+    });
+  }
+  document.querySelectorAll('.image-section, .machine-images .image-section').forEach(el => {
+    enableImagePaste(el);
+  });
+
+  // Expand/collapse with animated height & arrow rotation
+  const days = document.querySelectorAll('section.day');
+  days.forEach(section => {
+    const header = section.querySelector('h2');
+    header.addEventListener('click', () => toggleSection(section));
+    header.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSection(section);
+      }
+    });
+    section.style.height = 'auto';
+  });
+
+  function toggleSection(section) {
+    if (section.classList.contains('collapsed')) {
+      // expand
+      section.classList.remove('collapsed');
+      animateHeight(section, section.scrollHeight, null);
+      section.querySelector('h2').classList.add('active');
+      section.setAttribute('aria-expanded', 'true');
+      section.querySelector('h2').setAttribute('aria-expanded', 'true');
+    } else {
+      // collapse with animated height
+      const currentHeight = section.scrollHeight;
+      animateHeight(section, 50, () => {
+        section.classList.add('collapsed');
+        section.querySelector('h2').classList.remove('active');
+        section.setAttribute('aria-expanded', 'false');
+        section.querySelector('h2').setAttribute('aria-expanded', 'false');
+      }, currentHeight);
+    }
+  }
+
+  function animateHeight(element, toHeight, callback, fromHeight) {
+    element.style.overflow = 'hidden';
+    element.style.height = fromHeight ? fromHeight + 'px' : element.offsetHeight + 'px';
+
+    requestAnimationFrame(() => {
+      element.style.transition = 'height 0.5s ease';
+      element.style.height = toHeight + 'px';
+    });
+
+    element.addEventListener('transitionend', function handler() {
+      element.style.height = toHeight === 50 ? '50px' : 'auto';
+      element.style.overflow = '';
+      element.style.transition = '';
+      element.removeEventListener('transitionend', handler);
+      if (callback) callback();
+    });
+  }
+
+  // ScrollSpy navigation update with smooth highlight
+  const navLinks = document.querySelectorAll('nav a');
+  function updateNav() {
+    let scrollPos = window.scrollY + window.innerHeight / 3;
+    let activeSet = false;
+    navLinks.forEach(link => {
+      const section = document.querySelector(link.hash);
+      if (!section) return;
+      if (section.offsetTop <= scrollPos && (section.offsetTop + section.offsetHeight) > scrollPos) {
+        if (!activeSet) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+          activeSet = true;
+        }
+      }
+    });
+  }
+  window.addEventListener('scroll', () => {
+    updateNav();
+    handleStickyNav();
+    handleBackToTopBtn();
+  });
+  updateNav();
+
+  // Smooth scrolling on nav click
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.hash);
+      if (target) {
+        target.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+    });
+  });
+
+  // Sticky nav shadow toggle
+  const nav = document.getElementById('sideNav');
+  function handleStickyNav() {
+    if(window.scrollY > 50) {
+      nav.classList.add('sticky');
+    } else {
+      nav.classList.remove('sticky');
+    }
+  }
+  handleStickyNav();
+
+  // Back to top button
+  const backToTopBtn = document.getElementById('backToTopBtn');
+  function handleBackToTopBtn() {
+    if(window.scrollY > 500) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
+  }
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  // Dark/light mode toggle
+  const modeToggle = document.getElementById('modeToggle');
+  modeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    modeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+  });
+</script>
+
+</body>
+</html>
